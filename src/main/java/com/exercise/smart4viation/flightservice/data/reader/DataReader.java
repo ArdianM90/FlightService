@@ -1,15 +1,18 @@
 package com.exercise.smart4viation.flightservice.data.reader;
 
 import com.exercise.smart4viation.flightservice.domain.CargoEntity;
+import com.exercise.smart4viation.flightservice.domain.CargoUnit;
 import com.exercise.smart4viation.flightservice.domain.FlightEntity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class DataReader {
     private static final String FLIGHT_PATH = "src/main/resources/jsonData/flight_entity.json";
     private static final String CARGO_PATH = "src/main/resources/jsonData/cargo_entity.json";
@@ -33,5 +36,23 @@ public class DataReader {
             e.printStackTrace();
         }
         return cargoList;
+    }
+
+    public List<CargoUnit> getCargoListByFlightId(int flightId) {
+        List<CargoUnit> output = new ArrayList<>();
+        output = getCargoEntitiesList().stream()
+                .filter(e -> e.getFlightId() == flightId)
+                .map(CargoEntity::getCargo)
+                .findFirst().get();
+        return output;
+    }
+
+    public List<CargoUnit> getBaggageListByFlightId(int flightId) {
+        List<CargoUnit> output = new ArrayList<>();
+        output = getCargoEntitiesList().stream()
+                .filter(e -> e.getFlightId() == flightId)
+                .map(CargoEntity::getBaggage)
+                .findFirst().get();
+        return  output;
     }
 }
