@@ -48,15 +48,4 @@ public class FlightEntity {
     public void setDepartureDate(String departureDate) {
         this.departureDate = departureDate;
     }
-
-    @Override
-    public String toString() {
-        return "Flight{" +
-                "flightId=" + flightId +
-                ", flightNumber=" + flightNumber +
-                ", departureAirportIATACode='" + departureAirportIATACode + '\'' +
-                ", arrivalAirportIATACode='" + arrivalAirportIATACode + '\'' +
-                ", departureDate=" + departureDate +
-                '}';
-    }
 }

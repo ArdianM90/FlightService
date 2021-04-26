@@ -4,7 +4,6 @@ import com.exercise.smart4viation.flightservice.domain.CargoEntity;
 import com.exercise.smart4viation.flightservice.domain.FlightEntity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.simple.parser.JSONParser;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,14 +13,12 @@ import java.util.List;
 public class DataReader {
     private static final String FLIGHT_PATH = "src/main/resources/jsonData/flight_entity.json";
     private static final String CARGO_PATH = "src/main/resources/jsonData/cargo_entity.json";
-    private final JSONParser parser = new JSONParser();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public List<FlightEntity> getFlightEntitiesList() {
         List<FlightEntity> flightList = new ArrayList<>();
         try {
             flightList = objectMapper.readValue(new FileReader(FLIGHT_PATH), new TypeReference<List<FlightEntity>>() {});
-            flightList.forEach(e -> System.out.println(e.getDepartureDate()));
         } catch (IOException e) {
             e.printStackTrace();
         }
