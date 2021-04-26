@@ -21,7 +21,7 @@ public class Smart4viationFlightServiceApplication extends SpringBootServletInit
     @Override
 	public void run(String... args) {
         DataReader dataReader = new DataReader();
-        System.out.println(dataReader.getFlightEntity());
-        System.out.println(dataReader.getCargoEntity());
+        System.out.println(dataReader.getFlightEntitiesList());
+        System.out.println(dataReader.getCargoEntitiesList());
     }
 }

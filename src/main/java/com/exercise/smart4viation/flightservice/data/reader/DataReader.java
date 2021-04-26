@@ -1,35 +1,40 @@
 package com.exercise.smart4viation.flightservice.data.reader;
 
+import com.exercise.smart4viation.flightservice.domain.CargoEntity;
+import com.exercise.smart4viation.flightservice.domain.FlightEntity;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.springframework.stereotype.Component;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-@Component
 public class DataReader {
     private static final String FLIGHT_PATH = "src/main/resources/jsonData/flight_entity.json";
     private static final String CARGO_PATH = "src/main/resources/jsonData/cargo_entity.json";
-    private static final JSONParser parser = new JSONParser();
+    private final JSONParser parser = new JSONParser();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public Object getFlightEntity() {
-        Object obj = new Object();
+    public List<FlightEntity> getFlightEntitiesList() {
+        List<FlightEntity> flightList = new ArrayList<>();
         try {
-            obj = parser.parse(new FileReader(FLIGHT_PATH));
-        } catch (IOException | ParseException e) {
+            flightList = objectMapper.readValue(new FileReader(FLIGHT_PATH), new TypeReference<List<FlightEntity>>() {});
+            flightList.forEach(e -> System.out.println(e.getDepartureDate()));
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return obj;
+        return flightList;
     }
 
-    public Object getCargoEntity() {
-        Object obj = new Object();
+    public List<CargoEntity> getCargoEntitiesList() {
+        List<CargoEntity> cargoList = new ArrayList<>();
         try {
-            obj = parser.parse(new FileReader(CARGO_PATH));
-        } catch (IOException | ParseException e) {
+            cargoList = objectMapper.readValue(new FileReader(CARGO_PATH), new TypeReference<List<CargoEntity>>() {});
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return obj;
+        return cargoList;
     }
 }
