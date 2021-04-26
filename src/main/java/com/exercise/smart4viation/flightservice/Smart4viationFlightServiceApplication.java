@@ -1,7 +1,6 @@
 package com.exercise.smart4viation.flightservice;
 
 import com.exercise.smart4viation.flightservice.data.browser.DataBrowser;
-import com.exercise.smart4viation.flightservice.data.reader.DataReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,9 +24,7 @@ public class Smart4viationFlightServiceApplication extends SpringBootServletInit
 
     @Override
 	public void run(String... args) {
-//        DataReader dataReader = new DataReader();
-//        System.out.println(dataReader.getFlightEntitiesList());
-//        System.out.println(dataReader.getCargoEntitiesList());
         browser.getCargoInfo(6545, "2020-01-01T01:22:15 -01:00");
+        browser.getAirportInfo("KRK", "2020-01-01T01:22:15 -01:00");
     }
 }

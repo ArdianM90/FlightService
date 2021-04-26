@@ -2,10 +2,14 @@ package com.exercise.smart4viation.flightservice.data.browser;
 
 import com.exercise.smart4viation.flightservice.WeightCalc;
 import com.exercise.smart4viation.flightservice.data.reader.DataReader;
+import com.exercise.smart4viation.flightservice.domain.CargoEntity;
 import com.exercise.smart4viation.flightservice.domain.CargoUnit;
 import com.exercise.smart4viation.flightservice.domain.FlightEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class DataBrowser {
@@ -35,6 +39,20 @@ public class DataBrowser {
 //        b. Number of flights arriving to this airport,
 //        c. Total number (pieces) of baggage arriving to this airport,
 //        d. Total number (pieces) of baggage departing from this airport.
+        List<Integer> arrivalFlights = getArrivalFlightsToAirport(airportCode);
+        List<Integer> departingFlights = getDepartingFlightsFromAirport(airportCode);
+        System.out.println("Number of flights departing from "+airportCode+": "+departingFlights.size());
+        System.out.println("Number of flights arriving to "+airportCode+": "+arrivalFlights.size());
+        int arrBaggSum = arrivalFlights.stream()
+                .map(this::getBaggageSumBy)
+                .mapToInt(Integer::intValue)
+                .sum();
+        int depBaggSum = departingFlights.stream()
+                .map(this::getBaggageSumBy)
+                .mapToInt(Integer::intValue)
+                .sum();
+        System.out.println("Total number (pieces) of baggage arriving to "+airportCode+": "+arrBaggSum);
+        System.out.println("Total number (pieces) of baggage departing from "+airportCode+": "+depBaggSum);
     }
 
     private int getCargoWeightBy(int flightId) {
@@ -59,5 +77,30 @@ public class DataBrowser {
                 .map(CargoUnit::getWeight)
                 .mapToInt(Integer::intValue).sum();
         return kgSum + (weightCalculator.computeLbsToKgs(lbSum));
+    }
+
+    private List<Integer> getArrivalFlightsToAirport(String airportCode) {
+        return dataReader.getFlightEntitiesList().stream()
+                .filter(e -> e.getArrivalAirportIATACode().equals(airportCode))
+                .map(FlightEntity::getFlightId)
+                .collect(Collectors.toList());
+    }
+
+    private List<Integer> getDepartingFlightsFromAirport(String airportCode) {
+        return dataReader.getFlightEntitiesList().stream()
+                .filter(e -> e.getDepartureAirportIATACode().equals(airportCode))
+                .map(FlightEntity::getFlightId)
+                .collect(Collectors.toList());
+    }
+
+    private int getBaggageSumBy(int flightId) {
+        return dataReader.getCargoEntitiesList().stream()
+                .filter(e -> e.getFlightId() == flightId)
+                .map(CargoEntity::getBaggage)
+                .collect(Collectors.toList())
+                .stream()
+                .flatMap(List::stream)
+                .map(CargoUnit::getPieces)
+                .mapToInt(Integer::intValue).sum();
     }
 }
