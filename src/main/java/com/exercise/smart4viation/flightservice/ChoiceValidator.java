@@ -13,7 +13,15 @@ public class ChoiceValidator {
     }
 
     public boolean validateFlightNumber(String flightNo) {
-        return false;
+        if (flightNo.length() != 4) {
+            return false;
+        }
+        try {
+            Integer.parseInt(flightNo);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 
     public boolean validateDate(String date) {
@@ -21,6 +29,12 @@ public class ChoiceValidator {
     }
 
     public boolean validateAirportCode(String code) {
-        return false;
+        if (code.length() != 3) {
+            return false;
+        }
+        if (!code.chars().allMatch(Character::isLetter)) {
+            return false;
+        };
+        return code.chars().noneMatch(Character::isLowerCase);
     }
 }

@@ -58,12 +58,14 @@ public class Smart4viationFlightServiceApplication implements CommandLineRunner 
         String entry = input.nextLine();
         while (!validator.validateFlightNumber(entry)) {
             System.out.println("Wrong value. "+FLIGHT_NUMBER_REQ);
+            entry = input.nextLine();
         }
         int flightNo = Integer.parseInt(entry);
         System.out.println(DATE_REQ);
         entry = input.nextLine();
         while (!validator.validateDate(entry)) {
             System.out.println("Wrong value. "+DATE_REQ);
+            entry = input.nextLine();
         }
         String date = entry;
         //FlightInfo(flightNo, date)
@@ -74,12 +76,14 @@ public class Smart4viationFlightServiceApplication implements CommandLineRunner 
         String entry = input.nextLine();
         while (!validator.validateAirportCode(entry)) {
             System.out.println("Wrong value. "+AIRPORT_CODE_REQ);
+            entry = input.nextLine();
         }
-        int airportCode = Integer.parseInt(entry);
+        String airportCode = entry;
         System.out.println(DATE_REQ);
         entry = input.nextLine();
         while (!validator.validateDate(entry)) {
             System.out.println("Wrong value. "+DATE_REQ);
+            entry = input.nextLine();
         }
         String date = entry;
         //AirportInfo(airportCode, date)
