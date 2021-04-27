@@ -19,8 +19,6 @@ public class MainMenu {
     private static final String AIRPORT_CODE_REQ = "Type requested airport code (3 uppercase letter), for example \"KRK\":";
     private static final String DATE_REQ = "Type date in format YYYY-MM-DDTHH:MM:SS Z, for example \"2020-01-01T01:22:15 -01:00\":";
     private final Scanner input = new Scanner(System.in);
-//    browser.getCargoInfo(6545, "2020-01-01T01:22:15 -01:00");
-//    browser.getAirportInfo("KRK", "2020-01-01T01:22:15 -01:00");
 
     public void run() {
         boolean dontWantToQuit = true;

@@ -7,8 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
-class ChoiceValidatorTestSuite {
+@SpringBootTest(classes = ChoiceValidator.class)
+class DateValidationTestSuite {
     @Autowired
     ChoiceValidator validator;
 
@@ -40,7 +40,7 @@ class ChoiceValidatorTestSuite {
     }
 
     @Test
-    public void shouldNotPassDateWithInvalidChar() {
+    public void shouldNotPassDateWithInvalidCharacter() {
         //Given
         String date = "2020X01-01T01:22:15 01:00";
 
