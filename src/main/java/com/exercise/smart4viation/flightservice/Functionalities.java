@@ -1,6 +1,7 @@
 package com.exercise.smart4viation.flightservice;
 
 import com.exercise.smart4viation.flightservice.data.JsonReader;
+import com.exercise.smart4viation.flightservice.data.WeightCalc;
 import com.exercise.smart4viation.flightservice.domain.CargoEntity;
 import com.exercise.smart4viation.flightservice.domain.CargoUnit;
 import com.exercise.smart4viation.flightservice.domain.FlightEntity;
@@ -18,14 +19,17 @@ public class Functionalities {
     @Autowired
     WeightCalc calculator;
 
+    private static final int EMPTY = -1;
+
     public void getCargoInfo(int flightNumber, String date) {
         int flightId = jsonReader.getFlightEntitiesList().stream()
                 .filter(e -> e.getFlightNumber() == flightNumber)
                 .filter(e -> e.getDepartureDate().equals(date))
                 .map(FlightEntity::getFlightId)
-                .findFirst().get();
-        int cargoWeight = computeCargoWeightById(flightId);
-        int baggageWeight = computeBaggageWeightById(flightId);
+                .findFirst()
+                .orElse(EMPTY);
+        int cargoWeight = flightId != EMPTY ? computeCargoWeightById(flightId) : 0;
+        int baggageWeight = flightId != EMPTY ? computeBaggageWeightById(flightId) : 0;
         System.out.println("Cargo weight (kg): "+cargoWeight);
         System.out.println("Baggage weight (kg): "+baggageWeight);
         System.out.println("Total weight (kg): "+(cargoWeight+baggageWeight));

@@ -39,20 +39,18 @@ public class JsonReader {
     }
 
     public List<CargoUnit> getCargoListByFlightId(int flightId) {
-        List<CargoUnit> output = new ArrayList<>();
-        output = getCargoEntitiesList().stream()
+        return getCargoEntitiesList().stream()
                 .filter(e -> e.getFlightId() == flightId)
                 .map(CargoEntity::getCargo)
-                .findFirst().get();
-        return output;
+                .findFirst()
+                .orElse(new ArrayList<>());
     }
 
     public List<CargoUnit> getBaggageListByFlightId(int flightId) {
-        List<CargoUnit> output = new ArrayList<>();
-        output = getCargoEntitiesList().stream()
+        return getCargoEntitiesList().stream()
                 .filter(e -> e.getFlightId() == flightId)
                 .map(CargoEntity::getBaggage)
-                .findFirst().get();
-        return  output;
+                .findFirst()
+                .orElse(new ArrayList<>());
     }
 }

@@ -1,4 +1,4 @@
-package com.exercise.smart4viation.flightservice;
+package com.exercise.smart4viation.flightservice.data;
 
 import org.springframework.stereotype.Component;
 
