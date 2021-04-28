@@ -1,6 +1,8 @@
 package com.exercise.smart4viation.flightservice.ui;
 
 import com.exercise.smart4viation.flightservice.Functionalities;
+import com.exercise.smart4viation.flightservice.dto.AirportInfoDto;
+import com.exercise.smart4viation.flightservice.dto.CargoInfoDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -59,7 +61,8 @@ public class MainMenu {
             entry = input.nextLine();
         }
         String date = entry;
-        appFunctions.getCargoInfo(flightNo, date);
+        CargoInfoDto infoDto = appFunctions.getCargoInfo(flightNo, date);
+        System.out.println(infoDto);
     }
 
     private void runAirportInfo() {
@@ -77,6 +80,7 @@ public class MainMenu {
             entry = input.nextLine();
         }
         String date = entry;
-        appFunctions.getAirportInfo(airportCode, date);
+        AirportInfoDto infoDto = appFunctions.getAirportInfo(airportCode, date);
+        System.out.println(infoDto);
     }
 }

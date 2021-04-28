@@ -5,6 +5,8 @@ import com.exercise.smart4viation.flightservice.data.WeightCalc;
 import com.exercise.smart4viation.flightservice.domain.CargoEntity;
 import com.exercise.smart4viation.flightservice.domain.CargoUnit;
 import com.exercise.smart4viation.flightservice.domain.FlightEntity;
+import com.exercise.smart4viation.flightservice.dto.AirportInfoDto;
+import com.exercise.smart4viation.flightservice.dto.CargoInfoDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +23,7 @@ public class Functionalities {
 
     private static final int EMPTY = -1;
 
-    public void getCargoInfo(int flightNumber, String date) {
+    public CargoInfoDto getCargoInfo(int flightNumber, String date) {
         int flightId = jsonReader.getFlightEntitiesList().stream()
                 .filter(e -> e.getFlightNumber() == flightNumber)
                 .filter(e -> e.getDepartureDate().equals(date))
@@ -30,16 +32,13 @@ public class Functionalities {
                 .orElse(EMPTY);
         int cargoWeight = flightId != EMPTY ? computeCargoWeightById(flightId) : 0;
         int baggageWeight = flightId != EMPTY ? computeBaggageWeightById(flightId) : 0;
-        System.out.println("Cargo weight (kg): "+cargoWeight);
-        System.out.println("Baggage weight (kg): "+baggageWeight);
-        System.out.println("Total weight (kg): "+(cargoWeight+baggageWeight));
+
+        return new CargoInfoDto(flightNumber, date, cargoWeight, baggageWeight);
     }
 
-    public void getAirportInfo(String airportCode, String date) {
+    public AirportInfoDto getAirportInfo(String airportCode, String date) {
         List<Integer> arrivalFlights = getArrivalFlightsToAirport(airportCode, date);
         List<Integer> departingFlights = getDepartingFlightsFromAirport(airportCode, date);
-        System.out.println("Number of flights departing from "+airportCode+": "+departingFlights.size());
-        System.out.println("Number of flights arriving to "+airportCode+": "+arrivalFlights.size());
         int arrBaggSum = arrivalFlights.stream()
                 .map(this::computeBaggageSumById)
                 .mapToInt(Integer::intValue)
@@ -48,8 +47,8 @@ public class Functionalities {
                 .map(this::computeBaggageSumById)
                 .mapToInt(Integer::intValue)
                 .sum();
-        System.out.println("Total number (pieces) of baggage arriving to "+airportCode+": "+arrBaggSum);
-        System.out.println("Total number (pieces) of baggage departing from "+airportCode+": "+depBaggSum);
+
+        return new AirportInfoDto(airportCode, date, departingFlights.size(), arrivalFlights.size(), depBaggSum, arrBaggSum);
     }
 
     private int computeCargoWeightById(int flightId) {
