@@ -13,38 +13,32 @@ class DateValidationTestSuite {
     ChoiceValidator validator;
 
     @Test
-    public void shouldPassDateWithNegativeZulu() {
-        //Given
-        String date = "2020-01-01T01:22:15 -01:00";
-
-        //When&Then
-        assertTrue(validator.validateDate(date));
-    }
-
-    @Test
-    public void shouldPassDateWithPositiveZulu() {
-        //Given
-        String date = "2020-01-01T01:22:15 01:00";
-
-        //When&Then
-        assertTrue(validator.validateDate(date));
-    }
-
-    @Test
     public void shouldNotPassEmptyString() {
         //Given
         String date = "";
-
         //When&Then
         assertFalse(validator.validateDate(date));
+    }
+
+    @Test
+    public void shouldPassProperDate() {
+        //Given
+        String case1 = "2020-01-01T01:22:15 01:00";
+        String case2 = "2020-01-01T01:22:15 -01:00";
+        //When&Then
+        assertTrue(validator.validateDate(case1));
+        assertTrue(validator.validateDate(case2));
     }
 
     @Test
     public void shouldNotPassDateWithInvalidCharacter() {
         //Given
-        String date = "2020X01-01T01:22:15 01:00";
-
+        String case1 = "2020X01-01T01:22:15 01:00";
+        String case2 = "2020-01-01T01:22:15X01:00";
+        String case3 = "2020-01-01T01:22:15 X01:00";
         //When&Then
-        assertFalse(validator.validateDate(date));
+        assertFalse(validator.validateDate(case1));
+        assertFalse(validator.validateDate(case2));
+        assertFalse(validator.validateDate(case3));
     }
 }

@@ -1,6 +1,6 @@
 package com.exercise.smart4viation.flightservice.ui;
 
-import com.exercise.smart4viation.flightservice.data.browser.DataBrowser;
+import com.exercise.smart4viation.flightservice.Functionalities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -9,10 +9,10 @@ import java.util.Scanner;
 @Component
 public class MainMenu {
     @Autowired
-    DataBrowser browser;
+    ChoiceValidator validator;
 
     @Autowired
-    ChoiceValidator validator;
+    Functionalities appFunctions;
 
     private static final String UI_INSTRUCTION = "Type \"F\" for flight information request, \"A\" for airport information request or \"X\" to quit application.";
     private static final String FLIGHT_NUMBER_REQ = "Type requested flight number (4 digits), for example \"6545\":";
@@ -31,7 +31,7 @@ public class MainMenu {
             }
             switch (userChoice.toUpperCase()) {
                 case "F":
-                    runFlightInfo();
+                    runCargoInfo();
                     break;
                 case "A":
                     runAirportInfo();
@@ -44,7 +44,7 @@ public class MainMenu {
         System.exit(0);
     }
 
-    private void runFlightInfo() {
+    private void runCargoInfo() {
         System.out.println(FLIGHT_NUMBER_REQ);
         String entry = input.nextLine();
         while (!validator.validateFlightNumber(entry)) {
@@ -59,7 +59,7 @@ public class MainMenu {
             entry = input.nextLine();
         }
         String date = entry;
-        //FlightInfo(flightNo, date)
+        appFunctions.getCargoInfo(flightNo, date);
     }
 
     private void runAirportInfo() {
@@ -77,6 +77,6 @@ public class MainMenu {
             entry = input.nextLine();
         }
         String date = entry;
-        //AirportInfo(airportCode, date)
+        appFunctions.getAirportInfo(airportCode, date);
     }
 }

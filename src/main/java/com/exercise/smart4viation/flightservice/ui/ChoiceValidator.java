@@ -30,7 +30,7 @@ public class ChoiceValidator {
     }
 
     public boolean validateDate(String date) {
-        if (date.length() != 25 && date.length() != 26) {
+        if (date.length() < 25 || date.length() > 26) {
             return false;
         }
         if (date.charAt(4) != '-' ||
@@ -40,6 +40,9 @@ public class ChoiceValidator {
                 date.charAt(16) != ':' ||
                 date.charAt(19) != ' ' ||
                 date.charAt(date.length()-3) != ':') {
+            return false;
+        }
+        if (date.length() == 26 && date.charAt(date.length()-6) != '-') {
             return false;
         }
         return isInt(date.substring(0, 4)) &&

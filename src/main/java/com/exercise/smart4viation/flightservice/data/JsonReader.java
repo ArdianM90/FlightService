@@ -1,4 +1,4 @@
-package com.exercise.smart4viation.flightservice.data.reader;
+package com.exercise.smart4viation.flightservice.data;
 
 import com.exercise.smart4viation.flightservice.domain.CargoEntity;
 import com.exercise.smart4viation.flightservice.domain.CargoUnit;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class DataReader {
+public class JsonReader {
     private static final String FLIGHT_PATH = "src/main/resources/jsonData/flight_entity.json";
     private static final String CARGO_PATH = "src/main/resources/jsonData/cargo_entity.json";
     private final ObjectMapper objectMapper = new ObjectMapper();
