@@ -16,14 +16,14 @@ import java.util.stream.Collectors;
 @Component
 public class Functionalities {
     @Autowired
-    JsonReader jsonReader;
+    private JsonReader jsonReader;
 
     @Autowired
-    WeightCalc calculator;
+    private WeightCalc calculator;
 
     private static final int EMPTY = -1;
 
-    public CargoInfoDto getCargoInfo(int flightNumber, String date) {
+    public CargoInfoDto getCargoInfo(final int flightNumber, final String date) {
         int flightId = jsonReader.getFlightEntitiesList().stream()
                 .filter(e -> e.getFlightNumber() == flightNumber)
                 .filter(e -> e.getDepartureDate().equals(date))
@@ -32,11 +32,10 @@ public class Functionalities {
                 .orElse(EMPTY);
         int cargoWeight = flightId != EMPTY ? computeCargoWeightById(flightId) : 0;
         int baggageWeight = flightId != EMPTY ? computeBaggageWeightById(flightId) : 0;
-
         return new CargoInfoDto(flightNumber, date, cargoWeight, baggageWeight);
     }
 
-    public AirportInfoDto getAirportInfo(String airportCode, String date) {
+    public AirportInfoDto getAirportInfo(final String airportCode, final String date) {
         List<Integer> arrivalFlights = getArrivalFlightsToAirport(airportCode, date);
         List<Integer> departingFlights = getDepartingFlightsFromAirport(airportCode, date);
         int arrBaggSum = arrivalFlights.stream()
@@ -47,11 +46,10 @@ public class Functionalities {
                 .map(this::computeBaggageSumById)
                 .mapToInt(Integer::intValue)
                 .sum();
-
         return new AirportInfoDto(airportCode, date, departingFlights.size(), arrivalFlights.size(), depBaggSum, arrBaggSum);
     }
 
-    private int computeCargoWeightById(int flightId) {
+    private int computeCargoWeightById(final int flightId) {
         int lbSum = jsonReader.getCargoListByFlightId(flightId).stream()
                 .filter(e -> e.getWeightUnit().equals("lb"))
                 .map(CargoUnit::getWeight)
@@ -63,7 +61,7 @@ public class Functionalities {
         return kgSum + (calculator.computeLbsToKgs(lbSum));
     }
 
-    private int computeBaggageWeightById(int flightId) {
+    private int computeBaggageWeightById(final int flightId) {
         int lbSum = jsonReader.getBaggageListByFlightId(flightId).stream()
                 .filter(e -> e.getWeightUnit().equals("lb"))
                 .map(CargoUnit::getWeight)
@@ -75,7 +73,7 @@ public class Functionalities {
         return kgSum + (calculator.computeLbsToKgs(lbSum));
     }
 
-    private int computeBaggageSumById(int flightId) {
+    private int computeBaggageSumById(final int flightId) {
         return jsonReader.getCargoEntitiesList().stream()
                 .filter(e -> e.getFlightId() == flightId)
                 .map(CargoEntity::getBaggage)
@@ -86,7 +84,7 @@ public class Functionalities {
                 .mapToInt(Integer::intValue).sum();
     }
 
-    private List<Integer> getArrivalFlightsToAirport(String airportCode, String date) {
+    private List<Integer> getArrivalFlightsToAirport(final String airportCode, final String date) {
         return jsonReader.getFlightEntitiesList().stream()
                 .filter(e -> e.getArrivalAirportIATACode().equals(airportCode))
                 .filter(e -> e.getDepartureDate().equals(date))
@@ -94,7 +92,7 @@ public class Functionalities {
                 .collect(Collectors.toList());
     }
 
-    private List<Integer> getDepartingFlightsFromAirport(String airportCode, String date) {
+    private List<Integer> getDepartingFlightsFromAirport(final String airportCode, final String date) {
         return jsonReader.getFlightEntitiesList().stream()
                 .filter(e -> e.getDepartureAirportIATACode().equals(airportCode))
                 .filter(e -> e.getDepartureDate().equals(date))

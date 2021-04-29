@@ -38,7 +38,7 @@ public class JsonReader {
         return cargoList;
     }
 
-    public List<CargoUnit> getCargoListByFlightId(int flightId) {
+    public List<CargoUnit> getCargoListByFlightId(final int flightId) {
         return getCargoEntitiesList().stream()
                 .filter(e -> e.getFlightId() == flightId)
                 .map(CargoEntity::getCargo)
@@ -46,7 +46,7 @@ public class JsonReader {
                 .orElse(new ArrayList<>());
     }
 
-    public List<CargoUnit> getBaggageListByFlightId(int flightId) {
+    public List<CargoUnit> getBaggageListByFlightId(final int flightId) {
         return getCargoEntitiesList().stream()
                 .filter(e -> e.getFlightId() == flightId)
                 .map(CargoEntity::getBaggage)

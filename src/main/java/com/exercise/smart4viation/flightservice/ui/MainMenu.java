@@ -11,10 +11,10 @@ import java.util.Scanner;
 @Component
 public class MainMenu {
     @Autowired
-    ChoiceValidator validator;
+    private ChoiceValidator validator;
 
     @Autowired
-    Functionalities appFunctions;
+    private Functionalities appFunctions;
 
     private static final String UI_INSTRUCTION = "Type \"F\" for flight information request, \"A\" for airport information request or \"X\" to quit application.";
     private static final String FLIGHT_NUMBER_REQ = "Type requested flight number (4 digits), for example \"6545\":";
